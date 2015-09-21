@@ -1,4 +1,4 @@
-
+// utility functions for authentication and creating new session
 
 var isLoggedIn = function(req) {
   return req.session ? !!req.session.user : false;

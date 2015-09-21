@@ -2,11 +2,10 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var session = require("express-session");
 var util = require("./utils/utility");
-var boardRouter = require(...);
+var db = require("./db");
 
+var app = express();
 
-
-var db = require("/db");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:true }));
@@ -41,7 +40,7 @@ app.get("/signin", function(req, res) {
 app.post("/signin", function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
-  check if username exists in table 
+  // check if username exists in table 
   // if not alert client
   // if yes check comparePassword with getter
   //   if matches
@@ -49,11 +48,31 @@ app.post("/signin", function(req, res) {
   //   if not alert user
 });
 
-app.use("/boards", util.checkUser, boardRouter);
+app.get("/boards", util.checkUser, function(req, res) {
+  // respond with all messages
+});
 
+app.post("/boards", util.checkUser, function(req, res) {
+  var newBoard = req.body.newBoard;
+  // interact with db
+  // if already exists alert user and redirect user to that board
+  // create new board if doesn't already exists and redirect to new board
+});
 
+app.get("/boards/*", util.checkUser, function(req, res) {
+  // get board name
+  // check with db see if it exists
+  // if yes display all msg from that board
+  // if not redirect to all boards
+});
 
-var app = express();
+app.post("/boards/*", util.checkUser, function(req, res) {
+  // get board name
+  // check with db to see if board exists
+  // if not redirect to board
+  // if yes make a new entry to db
+})
+
 
 console.log("ChronoChat is listening on 8080");
 app.listen(8080);

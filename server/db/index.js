@@ -1,8 +1,15 @@
 var Sequelize = require("sequelize");
-var orm = new Sequelize("chronochat", "root", "");
+var orm = new Sequelize("chronochat", "root", "", {
+  host: "localhost",
+  dialect: "mysql",
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 10000
+  }
+});
 var bcrypt = require('bcrypt-nodejs');
 var Promise = require('bluebird');
-
 
 var User = orm.define('User', {
   username: Sequelize.STRING,
@@ -40,9 +47,9 @@ Message.belongsTo(User);
 Board.hasMany(Message);
 User.hasMany(Message);
 
-User.sync({force: true});
-Message.sync({force: true});
-Board.sync({force: true});
+User.sync();
+Message.sync();
+Board.sync();
 
 exports.User = User;
 exports.Message = Message;
