@@ -32,13 +32,20 @@ app.post("/signup", function(req, res) {
   // if yes alert user
   // if not create new user entry and create new session
   //   and redirect to /boards
-  db.User.create({
-    username: username,
-    password: password
-  }).then(function(user) {
-    user.set.hashPassword;
-    console.log('password hashed');
-    res.sendStatus(201);
+  db.User.count({
+    where: {username: username}
+  }).then(function(count) {
+    if (count > 0) {
+      console.log('Username taken');
+    } else {
+      db.User.create({
+        username: username,
+        password: password
+      }).then(function(user) {
+        user.hashPassword();
+        util.createSession(req, res, user);
+      });
+    }
   });
 });
 
@@ -58,6 +65,23 @@ app.post("/signin", function(req, res) {
   //   if matches
   //     creates session and redirect to /boards
   //   if not alert user
+  db.User.findOne({
+    where: {username: username}
+  }).then(function(user) {
+    if (!user) {
+      console.log('unregistered account');
+      res.redirect('signup');
+    } else {
+      user.comparePassword(password, function(match) {
+        if (match) {
+          console.log('matched!');
+          util.createSession(req, res, user);
+        } else {
+          console.log('incorrect password');
+        }
+      });
+    }
+  });
 });
 
 app.get("/boards", util.checkUser, function(req, res) {
