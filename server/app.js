@@ -89,15 +89,31 @@ app.post("/signin", function(req, res) {
 });
 
 // app.get("/boards", util.checkUser, function(req, res) {
-//   // respond with all messages
+//   // serve boards page
 // });
 
-// app.post("/boards", util.checkUser, function(req, res) {
-//   // var newBoard = req.body.newBoard;
-//   // interact with db
-//   // if already exists alert user and redirect user to that board
-//   // create new board if doesn't already exists and redirect to new board
-// });
+app.post("/boards", function(req, res) {
+  console.log('called');
+  var newBoard = req.body.boardname;
+  // interact with db
+  // if already exists alert user and redirect user to that board
+  // create new board if doesn't already exists and redirect to new board
+  db.Board.findOne({
+    where: {boardname: newBoard}
+  }).then(function(board) {
+    if (board) {
+      console.log('Board already exists');
+      // redirect to that board
+    } else {
+      db.Board.create({boardname: newBoard})
+        .then(function(board) {
+          console.log(board + " created");
+          // redirect to board
+        });
+    }
+  });
+  res.send(201);
+});
 
 // app.get("/boards/*", util.checkUser, function(req, res) {
 //   // get board name
