@@ -89,7 +89,7 @@ app.get("/boards", util.checkUser, function(req, res) {
 });
 
 app.post("/boards", util.checkUser, function(req, res) {
-  var newBoard = req.body.newBoard;
+  // var newBoard = req.body.newBoard;
   // interact with db
   // if already exists alert user and redirect user to that board
   // create new board if doesn't already exists and redirect to new board

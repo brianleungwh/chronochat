@@ -1,2 +1,22 @@
-<h1>All Boards<h1>
-  
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/styles/css/skeleton.css">
+    <script src="/lib/underscore/underscore.js"></script>
+    <script src="/lib/backbone/backbone.js"></script>
+    <script src="/lib/jquery/dist/jquery.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <form id="boardForm" method"post">
+        <label>Go to a Board</label>
+        <input class="u-full-width" type="text" name="boardname" id="boardname" Placeholder="Enter Board Name (no spaces allowed)">
+        <input class="button-primary" type="submit" value="Go">
+      </form>
+
+      <div class="messages"></div>
+
+    </div>
+  <script src="./FormView.js"></script>
+  </body>
+</html>
