@@ -6,10 +6,6 @@ var FormView = Backbone.View.extend({
     'submit': 'handleSubmit'
   },
 
-  initialize: function() {
-    console.log(this.el);
-  },
-
   handleSubmit: function(e) {
     e.preventDefault();
     var newBoardName = this.$('input[name=boardname]').val();

@@ -6,10 +6,12 @@ var MessageFormView = Backbone.View.extend({
     'submit': 'submitMsg'
   },
 
-  submitMsg: function() {
-    var msg = this.$el('input[name=message]').val();
-    this.$el('input[name=message]').val('');
-    $.post("/board", 
+  submitMsg: function(e) {
+    e.preventDefault();
+    var msg = this.$('input[name=message]').val();
+    this.$('input[name=message]').val('');
+    var boardname = $('#boardname').text();
+    $.post("/board/" + boardname, 
     {
       message: msg
     }, function(data) {

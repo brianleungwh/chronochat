@@ -7,7 +7,8 @@ var morgan = require("morgan");
 
 var app = express();
 
-
+app.set('views', __dirname + '/../views');
+app.set('view engine', 'jade');
 app.use(morgan("dev")); // logs GET and POST requests
 app.use(bodyParser.json()); // parses request's bodies req.body
 app.use(bodyParser.urlencoded({ extended:true }));
@@ -122,15 +123,16 @@ app.post("/boards/allboards", function(req, res) {
 app.get("/board/*", function(req, res) {
   // parse req.url
   var boardname = req.url.split('/').pop();
-  console.log('naving to: ' + boardname);
-  res.redirect('/board');
-  res.location('/board/' + boardname);
+  res.render('board', {boardname: boardname});
 });
 
 
 app.post("/board/*", function(req, res) {
+  console.log(req.url);
   var boardname = req.url.split('/').pop();
+  var message = req.body.message;
   console.log('adding: ' + boardname);
+  res.sendStatus(201);
 })
 
 
