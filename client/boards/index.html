@@ -2,21 +2,23 @@
 <html>
   <head>
     <link rel="stylesheet" href="/styles/css/skeleton.css">
+    <script src="/lib/jquery/dist/jquery.js"></script>
     <script src="/lib/underscore/underscore.js"></script>
     <script src="/lib/backbone/backbone.js"></script>
-    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="./FormView.js"></script>
   </head>
   <body>
     <div class="container">
-      <form id="boardForm" method"post">
-        <label>Go to a Board</label>
-        <input class="u-full-width" type="text" name="boardname" id="boardname" Placeholder="Enter Board Name (no spaces allowed)">
-        <input class="button-primary" type="submit" value="Go">
+
+      <form id="newBoardForm">
+        <label>Create a new Message Board</label>
+        <input class="u-full-width" type="text" name="boardname" id="boardname" Placeholder="Enter Board Name">
+        <input class="button-primary" name="submit" type="submit" value="Create">
       </form>
 
-      <div class="messages"></div>
+      <div class="boards"></div>
 
     </div>
-  <script src="./FormView.js"></script>
+
   </body>
 </html>

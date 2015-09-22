@@ -3,12 +3,16 @@ var bodyParser = require("body-parser");
 var session = require("express-session");
 var util = require("./utils/utility");
 var db = require("./db/index.js");
+var morgan = require("morgan");
 
 var app = express();
 
 
-app.use(bodyParser.json());
+app.use(morgan("dev")); // logs GET and POST requests
+app.use(bodyParser.json()); // parses request's bodies req.body
 app.use(bodyParser.urlencoded({ extended:true }));
+
+// tells express where to look for client files to serve
 app.use(express.static(__dirname + "/../client"));
 
 app.use(session({
@@ -70,7 +74,7 @@ app.post("/signin", function(req, res) {
   }).then(function(user) {
     if (!user) {
       console.log('unregistered account');
-      res.redirect('signup');
+      res.redirect('/signup');
     } else {
       user.comparePassword(password, function(match) {
         if (match) {
@@ -84,30 +88,30 @@ app.post("/signin", function(req, res) {
   });
 });
 
-app.get("/boards", util.checkUser, function(req, res) {
-  // respond with all messages
-});
+// app.get("/boards", util.checkUser, function(req, res) {
+//   // respond with all messages
+// });
 
-app.post("/boards", util.checkUser, function(req, res) {
-  // var newBoard = req.body.newBoard;
-  // interact with db
-  // if already exists alert user and redirect user to that board
-  // create new board if doesn't already exists and redirect to new board
-});
+// app.post("/boards", util.checkUser, function(req, res) {
+//   // var newBoard = req.body.newBoard;
+//   // interact with db
+//   // if already exists alert user and redirect user to that board
+//   // create new board if doesn't already exists and redirect to new board
+// });
 
-app.get("/boards/*", util.checkUser, function(req, res) {
-  // get board name
-  // check with db see if it exists
-  // if yes display all msg from that board
-  // if not redirect to all boards
-});
+// app.get("/boards/*", util.checkUser, function(req, res) {
+//   // get board name
+//   // check with db see if it exists
+//   // if yes display all msg from that board
+//   // if not redirect to all boards
+// });
 
-app.post("/boards/*", util.checkUser, function(req, res) {
-  // get board name
-  // check with db to see if board exists
-  // if not redirect to board
-  // if yes make a new entry to db
-})
+// app.post("/boards/*", util.checkUser, function(req, res) {
+//   // get board name
+//   // check with db to see if board exists
+//   // if not redirect to board
+//   // if yes make a new entry to db
+// })
 
 
 console.log("ChronoChat is listening on 8080");
