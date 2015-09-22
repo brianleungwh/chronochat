@@ -22,7 +22,17 @@ var BoardView = Backbone.View.extend({
     this.listenTo(this.model, "change", this.render);
   },
 
-  template: _.template('<div class="board"><%= boardname %></div>'),
+  events: {
+    'click': 'navToBoard'
+  },
+
+  template: _.template('<h1 class="board u-full-width"><%= boardname %></h1>'),
+
+  navToBoard: function() {
+    console.log(this.model.get('boardname'));
+    var boardname = this.model.get('boardname');
+    window.location = '/board/' + boardname;
+  },
 
   // el here is an empty div
   render: function() {
@@ -37,7 +47,7 @@ var BoardsView = Backbone.View.extend({
   el: '.boards',
 
   initialize: function() {
-    this.listenTo(this.collection, "sync", this.render);
+    this.listenTo(this.collection, "add", this.render);
     this.onscreenBoards = {};
     console.log(this.el);
   },
@@ -56,9 +66,9 @@ var BoardsView = Backbone.View.extend({
 });
 
 $(function() {
-  console.log('called');
   var boards = new Boards();
   var boardsView = new BoardsView({collection: boards});
+  setInterval(boards.loadBoards.bind(boards), 500);
   boards.loadBoards();
 });
 

@@ -20,6 +20,8 @@ app.use(session({
   resave: false,
 }));
 
+app.allBoards = {};
+
 app.get("/", util.checkUser, function(req, res) {
   res.redirect("/boards");
 });
@@ -89,9 +91,7 @@ app.post("/signin", function(req, res) {
 });
 
 app.get("/boards/allboards", function(req, res) {
-  console.log('server receives GET /boards request');
   db.Board.findAll().then(function(boards) {
-    console.log(boards);
     res.json(boards);
   });
 });
@@ -118,6 +118,22 @@ app.post("/boards/allboards", function(req, res) {
   });
   res.send(201);
 });
+
+app.get("/board/*", function(req, res) {
+  // parse req.url
+  var boardname = req.url.split('/').pop();
+  console.log('naving to: ' + boardname);
+  res.redirect('/board');
+  res.location('/board/' + boardname);
+});
+
+
+app.post("/board/*", function(req, res) {
+  var boardname = req.url.split('/').pop();
+  console.log('adding: ' + boardname);
+})
+
+
 
 // app.get("/boards/*", util.checkUser, function(req, res) {
 //   // get board name
