@@ -5,7 +5,8 @@ var isLoggedIn = function(req) {
 };
 
 exports.checkUser = function(req, res, next) {
-  if (!isLoggedIn(req)) { 
+  if (!isLoggedIn(req)) {
+    console.log('not logged in');
     res.redirect("/signin");
   } else {
     next();

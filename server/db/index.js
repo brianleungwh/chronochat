@@ -25,10 +25,12 @@ var User = orm.define('User', {
   },
   setterMethods: {
     hashPassword: function() {
+      console.log('called');
       var rawPW = this.getDataValue('password');
       var cipher = Promise.promisify(bcrypt.hash);
       return cipher(rawPW, null, null).bind(this)
         .then(function(hash) {
+          console.log(hash);
           this.setDataValue('password', hash);
         });
     }

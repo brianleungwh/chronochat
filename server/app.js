@@ -2,7 +2,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var session = require("express-session");
 var util = require("./utils/utility");
-var db = require("./db");
+var db = require("./db/index.js");
 
 var app = express();
 
@@ -20,9 +20,10 @@ app.get("/", util.checkUser, function(req, res) {
   res.redirect("/boards");
 });
 
-app.get("/signup", function(req, res) {
-  // serve signup page
-});
+// dont need
+// app.get("/signup", function(req, res) {
+//   // serve signup page
+// });
 
 app.post("/signup", function(req, res) {
   var username = req.body.username;
@@ -31,11 +32,22 @@ app.post("/signup", function(req, res) {
   // if yes alert user
   // if not create new user entry and create new session
   //   and redirect to /boards
+  db.User.create({
+    username: username,
+    password: password
+  }).then(function(user) {
+    user.set.hashPassword;
+    console.log('password hashed');
+    res.sendStatus(201);
+  });
 });
 
-app.get("/signin", function(req, res) {
-  // serve signin page
-});
+
+// dont need
+// app.get("/signin", function(req, res) {
+//   // serve signin page
+//   res.redirect('/auth');
+// });
 
 app.post("/signin", function(req, res) {
   var username = req.body.username;
