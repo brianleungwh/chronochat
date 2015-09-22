@@ -7,7 +7,6 @@ var FormView = Backbone.View.extend({
   },
 
   initialize: function() {
-    console.log('init');
     console.log(this.el);
   },
 
@@ -15,8 +14,8 @@ var FormView = Backbone.View.extend({
     e.preventDefault();
     var newBoardName = this.$('input[name=boardname]').val();
     this.$('input[name=boardname]').val('');
-    
-    $.post("/boards", 
+
+    $.post("/boards/allboards", 
     {
       boardname: newBoardName
     }, function(data) {

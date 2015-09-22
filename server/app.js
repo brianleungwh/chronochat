@@ -88,11 +88,15 @@ app.post("/signin", function(req, res) {
   });
 });
 
-// app.get("/boards", util.checkUser, function(req, res) {
-//   // serve boards page
-// });
+app.get("/boards/allboards", function(req, res) {
+  console.log('server receives GET /boards request');
+  db.Board.findAll().then(function(boards) {
+    console.log(boards);
+    res.json(boards);
+  });
+});
 
-app.post("/boards", function(req, res) {
+app.post("/boards/allboards", function(req, res) {
   console.log('called');
   var newBoard = req.body.boardname;
   // interact with db
