@@ -68,7 +68,7 @@ var BoardsView = Backbone.View.extend({
 $(function() {
   var boards = new Boards();
   var boardsView = new BoardsView({collection: boards});
-  setInterval(boards.loadBoards.bind(boards), 500);
+  setInterval(boards.loadBoards.bind(boards), 1000);
   boards.loadBoards();
 });
 

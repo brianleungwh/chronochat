@@ -119,6 +119,20 @@ app.post("/boards/allboards", function(req, res) {
   });
   res.send(201);
 });
+app.get("/board/msgs/*", function(req, res) {
+  // parse req.url
+  console.log('getting msgs');
+  var boardname = req.url.split('/').pop().split('?')[0];
+  console.log(boardname);
+  db.Board.findOne({where: {boardname: boardname}})
+    .then(function(board) {
+      db.Message.findAll({where: {BoardId: board.id}, include: [db.User]})
+        .then(function(boards) {
+          console.log(boards);
+          res.json(boards);
+        })
+    });
+});
 
 app.get("/board/*", function(req, res) {
   // parse req.url
@@ -127,13 +141,24 @@ app.get("/board/*", function(req, res) {
 });
 
 
+
 app.post("/board/*", function(req, res) {
-  console.log(req.url);
   var boardname = req.url.split('/').pop();
   var message = req.body.message;
-  console.log('adding: ' + boardname);
-  res.sendStatus(201);
-})
+  var username = req.session.user.username;
+
+  db.User.findOne({ where: {username: username}})
+    .then(function(user) {
+      db.Board.findOne({where: {boardname: boardname}})
+        .then(function(board) {
+          db.Message.create({
+            UserId: user.id,
+            BoardId: board.id,
+            text: message
+          })
+        })
+      })
+});
 
 
 
