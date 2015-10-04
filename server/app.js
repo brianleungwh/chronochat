@@ -21,16 +21,14 @@ app.use(session({
   resave: false,
 }));
 
-app.allBoards = {};
 
 app.get("/", util.checkUser, function(req, res) {
   res.redirect("/boards");
 });
 
-// dont need
-// app.get("/signup", function(req, res) {
-//   // serve signup page
-// });
+app.get("/signup", function(req, res) {
+  res.render('signup');
+});
 
 app.post("/signup", function(req, res) {
   var username = req.body.username;
@@ -43,7 +41,7 @@ app.post("/signup", function(req, res) {
     where: {username: username}
   }).then(function(count) {
     if (count > 0) {
-      console.log('Username taken');
+      alert('Username already taken');
     } else {
       db.User.create({
         username: username,
@@ -57,11 +55,10 @@ app.post("/signup", function(req, res) {
 });
 
 
-// dont need
-// app.get("/signin", function(req, res) {
-//   // serve signin page
-//   res.redirect('/auth');
-// });
+app.get("/signin", function(req, res) {
+  // serve signin page
+  res.render('signin');
+});
 
 app.post("/signin", function(req, res) {
   var username = req.body.username;
@@ -91,13 +88,17 @@ app.post("/signin", function(req, res) {
   });
 });
 
-app.get("/boards/allboards", function(req, res) {
+app.get('/boards', function(req, res) {
+  res.render('boards');
+});
+
+app.get("/api/boards", function(req, res) {
   db.Board.findAll().then(function(boards) {
     res.json(boards);
   });
 });
 
-app.post("/boards/allboards", function(req, res) {
+app.post("/api/boards", function(req, res) {
   console.log('called');
   var newBoard = req.body.boardname;
   // interact with db

@@ -1,0 +1,16 @@
+doctype html
+html
+  head
+    link(rel='stylesheet', href='/styles/css/skeleton.css')
+  body
+    .container
+      form(method='post')
+        legend Sign up for ChronoChat
+        label(for='name') Username
+        input(name='username', type='text', placeholder='username')
+        label(for='password') Password
+        input(name='password', type='password', placeholder='password')
+        br
+        input.button-primary(type='submit', value='Sign up')
+        br
+        a(href='/signin') Sign into existing account

@@ -1,5 +1,5 @@
 var Board = Backbone.Model.extend({
-  url: "/boards/allboards",
+  url: "/api/boards",
   defaults: {
     boardname: ""
   }
@@ -8,7 +8,7 @@ var Board = Backbone.Model.extend({
 var Boards = Backbone.Collection.extend({
   model: Board,
 
-  url: "/boards/allboards",
+  url: "/api/boards",
 
   loadBoards: function() {
     this.fetch({data: {order: '-created_At' }});
